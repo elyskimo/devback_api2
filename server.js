@@ -13,8 +13,15 @@ mongoose.connect(process.env.DB_CONNECT,
                   { useNewUrlParser: true, useUnifiedTopology: true },
                   () => console.log("Connected to MongoDB"));
 
+// Passport config
+// require('./config/passport');
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+
 // Middleware
-app.use(express.json());
+//app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 
 // Routes middlewares
 app.use('/api/user', authRoutes);

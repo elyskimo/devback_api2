@@ -10,7 +10,10 @@ const registerValidation = data => {
           .email(),
     password: Joi.string()
               .min(6)
-              .required()
+              .required(),
+    password2: Joi.string()
+                .required()
+                .valid(Joi.ref('password'))
   });
    return schema.validate(data);
 };

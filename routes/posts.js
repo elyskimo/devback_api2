@@ -3,6 +3,7 @@ const verify = require('./verifyToken');
 const User = require('../models/userModel');
 
 router.get('/', verify, (req,res) => {
+  console.log(req.headers);
   res.send(req.user);
   const user = User.findOne({ _id: req.user });
   // console.log(user);
@@ -13,5 +14,6 @@ router.get('/', verify, (req,res) => {
   //   }
   // });
 });
+
 
 module.exports = router;
