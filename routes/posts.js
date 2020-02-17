@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const verify = require('./verifyToken');
 const User = require('../models/userModel');
+const Post = require('../models/postModel');
 
 
 /**
@@ -37,6 +38,9 @@ router.get('/', verify, (req,res) => {
   // console.log(req.headers);
   // res.send(req.user);
   const user = User.findOne({ _id: req.user });
+  // const posts = Post.findOne({text: 'First post'});
+  console.log(posts);
+  // res.send(posts);
   // console.log(user);
   // res.json({
   //   posts: {
@@ -46,19 +50,19 @@ router.get('/', verify, (req,res) => {
   // });
 });
 
-router.get('/:id', (req,res) => {
+router.get('/:id', verify, (req,res) => {
 
 });
 
-router.post('/add', (req,res) => {
+router.post('/add', verify, (req,res) => {
 
 });
 
-router.put('/edit/:id', (req,res) => {
+router.put('/edit/:id', verify, (req,res) => {
 
 });
 
-router.delete('/delete/:id', (req,res) => {
+router.delete('/delete/:id', verify, (req,res) => {
 
 })
 

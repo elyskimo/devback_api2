@@ -7,6 +7,7 @@ const router = require('express').Router(),
       jwt = require('jsonwebtoken'),
       passport = require('passport'),
       urlencodedParser = bodyParser.urlencoded({extended: false});
+      const sessionStorage = require('sessionstorage');
 
 
 /**
@@ -89,31 +90,27 @@ router.post('/login', urlencodedParser, async (req,res,next) => {
   if(!req.body.email || !req.body.password){
     res.send("Please fill both inputs");
   } else {
-    passport.authenticate('local', {
-      successRedirect: '/api/posts/',
-      failureRedirect: '/api/user/bye',
-      // failureFlash: true
-    }, (err,user,info) => {
+
+    passport.authenticate('local', (err,user,info) => {
       if (err || !user) {
-              return res.status(400).json({
-                  message: 'Something is not right',
-                  user   : user
-              });
+              // return res.status(400).json({
+              //     message: 'Something is not right',
+              //     user   : user
+              // });
+              return res.redirect('/');
       }
       console.log(user)
       req.login(user, {session: false}, (err) => {
              if (err) {
                  res.send(err);
+                 res.redirect('/');
              }
              // generate a signed son web token with the contents of user object and return it in the response
              const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-             res.json({user, token});
-             res.redirect('/api/posts/');
-             // return res.json({user, token});
-             // return next();
-             // res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/posts.html')
+             sessionStorage.setItem('jwt', token);
+             res.redirect('/api/posts');
           });
-    })(req, res, next);
+    }) (req, res, next);
   }
 
 

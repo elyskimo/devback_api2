@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    index: true,
-    required: true,
-    auto: true,
-  },
   title: {
     type: String,
     required: true,
@@ -16,6 +10,6 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true
   }
-});
+}, { collection: 'posts' });
 
 module.exports = mongoose.model('Post',postSchema);

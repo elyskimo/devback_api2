@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken');
+const sessionStorage = require('sessionstorage');
 
 module.exports = function (req,res,next) {
   // console.log("token: ");
   // console.log(req.header('auth-token'));
-  const token = req.header('auth-token');
+  // const token = req.header('auth-token');
+  const token = sessionStorage.getItem('jwt');
   if(!token) return res.status(401).send("Access Denied");
 
   try{

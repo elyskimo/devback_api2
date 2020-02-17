@@ -8,9 +8,9 @@ const mongoose = require('mongoose');
  *
  * @apiParam {String} username username
  * @apiParam {String} password password
- * 
+ *
  * @apiSuccess {String} token JWT
- * 
+ *
  * @apiSuccessExample Successful Reponse:
  * HTTP/1.1 200 OK
  * {
@@ -33,6 +33,6 @@ const userSchema = new mongoose.Schema({
     required: true,
     min: 6
   }
-});
+}, { collection: 'users' });
 
 module.exports = mongoose.model('User',userSchema);
