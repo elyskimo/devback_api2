@@ -5,6 +5,24 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
+
+
+/**
+ * @api {post} /auth/login/ Login User
+ * @apiName LoginUser
+ * @apiGroup Auth
+ *
+ * @apiParam {String} username username
+ * @apiParam {String} password password
+ * 
+ * @apiSuccess {String} token JWT
+ * 
+ * @apiSuccessExample Successful Reponse:
+ * HTTP/1.1 200 OK
+ * {
+ *   "token": "18927398172c hsdkucbfy voq2 3rj23.41.2,3k4hjd`x8o237c49p8123759[48c17]`"
+ * }
+ */
 router.post('/register', async (req,res) => {
   console.log("Register");
   const { name, email, password, password2 } = req.body;
@@ -44,6 +62,24 @@ router.post('/register', async (req,res) => {
   });
 });
 
+
+/**
+ * @api {post} /auth/login/ Login User
+ * @apiName LoginUser
+ * @apiGroup Auth
+ *
+ * @apiParam {String} username username
+ * @apiParam {String} password password
+ * 
+ * @apiSuccess {String} token JWT
+ * 
+ * @apiSuccessExample Successful Reponse:
+ * HTTP/1.1 200 OK
+ * {
+ *   "token": "18927398172c hsdkucbfy voq2 3rj23.41.2,3k4hjd`x8o237c49p8123759[48c17]`"
+ * }
+ */
+
 router.post('/login', async (req,res,next) => {
   // const { error } = loginValidation(req.body);
   passport.authenticate('local', {
@@ -66,13 +102,28 @@ router.post('/login', async (req,res,next) => {
            return res.json({user, token});
         });
   })(req, res, next);
-
 });
 
 router.get('/bye', (req,res) => {
   res.send("You are logged out");
 })
 
+/**
+ * @api {post} /auth/signup/ Signup User
+ * @apiName SignupUser
+ * @apiGroup Auth
+ *
+ * @apiParam {String} username username
+ * @apiParam {String} password password
+ * 
+ * @apiSuccess {String} message 
+ * 
+ * @apiSuccessExample Successful Reponse:
+ * HTTP/1.1 201 OK
+ * {
+ *   "message": "success"
+ * }
+ */
 // Logout
 router.get('/logout', (req, res) => {
   req.logout();

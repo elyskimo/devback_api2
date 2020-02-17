@@ -20,6 +20,7 @@ app.use(passport.session());
 
 require('./config/passport')(passport);
 
+app.use('/docs', express.static('./docs'));
 
 // Middleware
 //app.use(express.json());
