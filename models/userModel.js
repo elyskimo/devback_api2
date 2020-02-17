@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 
 
 /**
- * @api {post} /auth/login/ Login User
- * @apiName LoginUser
+ * @api {UserModel}  UserModel
+ * @apiName UserModel
  * @apiGroup Auth
  *
- * @apiParam {String} username username
+ * @apiParam {String} name name
+ * @apiParam {String} email email
  * @apiParam {String} password password
  *
  * @apiSuccess {String} token JWT
