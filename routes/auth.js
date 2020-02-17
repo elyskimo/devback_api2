@@ -1,10 +1,12 @@
-const router = require('express').Router();
-const User = require('../models/userModel');
-const { registerValidation, loginValidation } = require('./validation');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const passport = require('passport');
-
+const router = require('express').Router(),
+      express = require('express'),
+      bodyParser = require('body-parser'),
+      User = require('../models/userModel'),
+      { registerValidation, loginValidation } = require('./validation'),
+      bcrypt = require('bcryptjs'),
+      jwt = require('jsonwebtoken'),
+      passport = require('passport'),
+      urlencodedParser = bodyParser.urlencoded({extended: false});
 
 
 /**
@@ -76,30 +78,45 @@ router.post('/register', async (req,res) => {
  * }
  */
 
-router.post('/login', async (req,res,next) => {
-  // const { error } = loginValidation(req.body);
-  res.sendFile('index.html');
+router.get('/login', (req,res,next) => {
+  res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/login.html');
+});
 
-  passport.authenticate('local', {
-    successRedirect: '/api/posts',
-    failureRedirect: '/api/user/bye',
-    // failureFlash: true
-  }, (err,user,info) => {
-    if (err || !user) {
-            return res.status(400).json({
-                message: 'Something is not right',
-                user   : user
-            });
-    }
-    req.login(user, {session: false}, (err) => {
-           if (err) {
-               res.send(err);
-           }
-           // generate a signed son web token with the contents of user object and return it in the response
-           const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-           return res.json({user, token});
-        });
-  })(req, res, next);
+router.post('/login', urlencodedParser, async (req,res,next) => {
+
+  // console.log(req.body.email);
+  // console.log(req.body.password);
+  if(!req.body.email || !req.body.password){
+    res.send("Please fill both inputs");
+  } else {
+    passport.authenticate('local', {
+      successRedirect: '/api/posts/',
+      failureRedirect: '/api/user/bye',
+      // failureFlash: true
+    }, (err,user,info) => {
+      if (err || !user) {
+              return res.status(400).json({
+                  message: 'Something is not right',
+                  user   : user
+              });
+      }
+      console.log(user)
+      req.login(user, {session: false}, (err) => {
+             if (err) {
+                 res.send(err);
+             }
+             // generate a signed son web token with the contents of user object and return it in the response
+             const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+             res.json({user, token});
+             res.redirect('/api/posts/');
+             // return res.json({user, token});
+             // return next();
+             // res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/posts.html')
+          });
+    })(req, res, next);
+  }
+
+
 });
 
 router.get('/bye', (req,res) => {

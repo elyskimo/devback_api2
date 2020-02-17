@@ -32,8 +32,10 @@ const User = require('../models/userModel');
  */
 
 router.get('/', verify, (req,res) => {
-  console.log(req.headers);
-  res.send(req.user);
+  console.log("POSTS");
+  res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/posts.html')
+  // console.log(req.headers);
+  // res.send(req.user);
   const user = User.findOne({ _id: req.user });
   // console.log(user);
   // res.json({

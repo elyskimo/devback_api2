@@ -1,8 +1,9 @@
-const express = require('express');
-const app = express();
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const passport = require('passport');
+const express = require('express'),
+      app = express(),
+      mongoose = require('mongoose'),
+      dotenv = require('dotenv'),
+      bodyParser = require('body-parser'),
+      passport = require('passport');
 dotenv.config();
 
 // Import routes
@@ -23,12 +24,13 @@ require('./config/passport')(passport);
 app.use('/docs', express.static('./docs'));
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 // Routes middlewares
 app.get('/', (req,res) => {
   res.send("Accueil");
+  // res.sendFile(__dirname+'/templates/login.html');
 });
 app.use('/api/user', authRoutes);
 app.use('/api/posts', postRoutes);
