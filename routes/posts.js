@@ -56,8 +56,8 @@ router.post('/add', verify, async (req,res) => {
         let err = new Error('Please fill all the inputs');
         return next(err);
       }
-    Post.insert(req.body).then(() => {
-      res.redirect('/');
+    Post.collection.insert(req.body).then(() => {
+      res.redirect('/api/posts');
     }).catch(next);
 });
 router.put('/edit/:id', verify, async (req,res,next) => {

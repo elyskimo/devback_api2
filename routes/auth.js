@@ -80,7 +80,7 @@ router.post('/register', async (req,res) => {
  */
 
 router.get('/login', (req,res,next) => {
-  res.sendFile('/Users/phebidias/Desktop/github/devback_api2/templates/login.html');
+  res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/login.html');
 });
 
 router.post('/login', urlencodedParser, async (req,res,next) => {
