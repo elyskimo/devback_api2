@@ -23,10 +23,13 @@ require('./config/passport')(passport);
 app.use('/docs', express.static('./docs'));
 
 // Middleware
-//app.use(express.json());
+app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 // Routes middlewares
+app.get('/', (req,res) => {
+  res.send("Accueil");
+});
 app.use('/api/user', authRoutes);
 app.use('/api/posts', postRoutes);
 app.listen(3000, () => console.log("Server up and running on localhost:3000"));

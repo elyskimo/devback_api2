@@ -14,9 +14,9 @@ const passport = require('passport');
  *
  * @apiParam {String} username username
  * @apiParam {String} password password
- * 
+ *
  * @apiSuccess {String} token JWT
- * 
+ *
  * @apiSuccessExample Successful Reponse:
  * HTTP/1.1 200 OK
  * {
@@ -33,9 +33,7 @@ router.post('/register', async (req,res) => {
   if(error) return res.status(400).send(error.details[0].message);
 
   // Checker si user existe
-  console.log("before mail search");
   const emailExist = await User.findOne({email: req.body.email});
-  console.log("after mail search");
   if(emailExist) return res.status(400).send('Email already exists');
 
   // Hasher le mot de passe
@@ -51,9 +49,7 @@ router.post('/register', async (req,res) => {
           password: hash
         });
         try{
-          console.log("before save");
           const savedUSer = await user.save();
-          console.log("after save");
           res.send(savedUSer);
         }catch(err){
           res.status(400).send(err);
@@ -70,9 +66,9 @@ router.post('/register', async (req,res) => {
  *
  * @apiParam {String} username username
  * @apiParam {String} password password
- * 
+ *
  * @apiSuccess {String} token JWT
- * 
+ *
  * @apiSuccessExample Successful Reponse:
  * HTTP/1.1 200 OK
  * {
@@ -82,9 +78,11 @@ router.post('/register', async (req,res) => {
 
 router.post('/login', async (req,res,next) => {
   // const { error } = loginValidation(req.body);
+  res.sendFile('index.html');
+
   passport.authenticate('local', {
     successRedirect: '/api/posts',
-    failureRedirect: 'api/user/login',
+    failureRedirect: '/api/user/bye',
     // failureFlash: true
   }, (err,user,info) => {
     if (err || !user) {
@@ -115,9 +113,9 @@ router.get('/bye', (req,res) => {
  *
  * @apiParam {String} username username
  * @apiParam {String} password password
- * 
- * @apiSuccess {String} message 
- * 
+ *
+ * @apiSuccess {String} message
+ *
  * @apiSuccessExample Successful Reponse:
  * HTTP/1.1 201 OK
  * {

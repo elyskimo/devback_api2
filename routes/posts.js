@@ -10,13 +10,13 @@ const User = require('../models/userModel');
  *
  * @apiParam {String} name Owner name, not unique
  * @apiParam {String} email Owner email, must be unique
- * 
+ *
  * @apiParamExample Example Body:
  * {
  *   "name": "Freddie Mercury",
  *   "email": "example@example.corm"
  * }
- * 
+ *
  * @apiSuccess {Number} id Owner id
  * @apiSuccess {String} name Owner Name
  * @apiSuccess {String} email Owner email
@@ -43,6 +43,22 @@ router.get('/', verify, (req,res) => {
   //   }
   // });
 });
+
+router.get('/:id', (req,res) => {
+
+});
+
+router.post('/add', (req,res) => {
+
+});
+
+router.put('/edit/:id', (req,res) => {
+
+});
+
+router.delete('/delete/:id', (req,res) => {
+
+})
 
 
 module.exports = router;
