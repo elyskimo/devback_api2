@@ -15,7 +15,9 @@ router.post('/register', async (req,res) => {
   if(error) return res.status(400).send(error.details[0].message);
 
   // Checker si user existe
+  console.log("before mail search");
   const emailExist = await User.findOne({email: req.body.email});
+  console.log("after mail search");
   if(emailExist) return res.status(400).send('Email already exists');
 
   // Hasher le mot de passe
@@ -31,7 +33,9 @@ router.post('/register', async (req,res) => {
           password: hash
         });
         try{
+          console.log("before save");
           const savedUSer = await user.save();
+          console.log("after save");
           res.send(savedUSer);
         }catch(err){
           res.status(400).send(err);
@@ -62,31 +66,18 @@ router.post('/login', async (req,res,next) => {
            return res.json({user, token});
         });
   })(req, res, next);
-  // if(error) return res.status(400).send(error.details[0].message);
 
-  // Checker si user existe
-  // const user = await User.findOne({ email: req.body.email });
-  // if(!user) return res.status(400).send('Email not found');
-
-  // Checker le mot de passe
-  // const validPass = await bcrypt.compare(req.body.password, user.password);
-  // if(!validPass) return res.status(400).send('Invalid password');
-
-  // Créer et assigner le token
-  // const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  // console.log(token);
-  // res.header('auth-token', token).send(token);
-  // res.redirect('/api/posts').header('auth-token', token);
-  // res.redirect(`/api/posts?auth-token=${token}`);
-
-  // res.send('Logged in');
 });
+
+router.get('/bye', (req,res) => {
+  res.send("You are logged out");
+})
 
 // Logout
 router.get('/logout', (req, res) => {
   req.logout();
-  req.flash('success_msg', 'You are logged out');
-  res.redirect('/users/login');
+  // req.flash('success_msg', 'You are logged out');
+  res.redirect('/api/user/bye');
 });
 
 module.exports = router;

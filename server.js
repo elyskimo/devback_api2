@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const passport = require('passport');
 dotenv.config();
 
 // Import routes
@@ -14,9 +15,10 @@ mongoose.connect(process.env.DB_CONNECT,
                   () => console.log("Connected to MongoDB"));
 
 // Passport config
-// require('./config/passport');
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./config/passport')(passport);
 
 
 // Middleware
