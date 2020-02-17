@@ -32,13 +32,13 @@ const Post = require('../models/postModel');
  * }
  */
 
-router.get('/', verify, (req,res) => {
-  console.log("POSTS");
+router.get('/', verify, async (req,res) => {
+  // console.log("POSTS");
   res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/posts.html')
   // console.log(req.headers);
   // res.send(req.user);
-  const user = User.findOne({ _id: req.user });
-  // const posts = Post.findOne({text: 'First post'});
+  const user = await User.findOne({ _id: req.user }).catch((err) => {console.log(err);});
+  const posts = await Post.find().catch((err) => {console.log(err);});
   console.log(posts);
   // res.send(posts);
   // console.log(user);
