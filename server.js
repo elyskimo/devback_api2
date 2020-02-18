@@ -29,8 +29,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // Routes middlewares
 app.get('/', (req,res) => {
-  res.send("Accueil");
-  // res.sendFile(__dirname+'/templates/login.html');
+  // res.send("Accueil");
+  res.sendFile(__dirname+'/templates/welcome.html');
 });
 app.use('/api/user', authRoutes);
 app.use('/api/posts', postRoutes);

@@ -11,21 +11,37 @@ const router = require('express').Router(),
 
 
 /**
- * @api {post} /auth/login/ Login User
- * @apiName LoginUser
- * @apiGroup Auth
+ * @api {post} /api/user/register Register User
+ * @apiName RegisterUser
+ * @apiGroup Authentication
  *
- * @apiParam {String} username username
+ * @apiParam {String} name name
+ * @apiParam {String} email email
  * @apiParam {String} password password
+ * @apiParam {String} password2 password2 confirmartion du password
+ *
+ *
+ * @apiParamExample Example Body:
+ * {
+ *   "name": "Freddie Mercury",
+ *   "email": "example@example.corm"
+ *   "password": "password"
+ *   "password2": "password"
+ * }
+ *
  *
  * @apiSuccess {String} token JWT
  *
- * @apiSuccessExample Successful Reponse:
- * HTTP/1.1 200 OK
+ * @apiErrorExample Successful Reponse:
+ * HTTP/1.1 400 NOT FOUND
  * {
- *   "token": "18927398172c hsdkucbfy voq2 3rj23.41.2,3k4hjd`x8o237c49p8123759[48c17]`"
+ *   "Error": "Error"
  * }
  */
+
+ router.get('/register', (req,res) => {
+   res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/register.html');
+ })
 router.post('/register', async (req,res) => {
   console.log("Register");
   const { name, email, password, password2 } = req.body;
@@ -53,7 +69,8 @@ router.post('/register', async (req,res) => {
         });
         try{
           const savedUSer = await user.save();
-          res.send(savedUSer);
+          // res.send(savedUSer);
+          res.redirect('/api/user/login');
         }catch(err){
           res.status(400).send(err);
         }
@@ -63,9 +80,9 @@ router.post('/register', async (req,res) => {
 
 
 /**
- * @api {post} /auth/login/ Login User
+ * @api {post} /api/user/login Login User
  * @apiName LoginUser
- * @apiGroup Auth
+ * @apiGroup Authentication
  *
  * @apiParam {String} username username
  * @apiParam {String} password password
@@ -121,14 +138,15 @@ router.get('/bye', (req,res) => {
 })
 
 /**
- * @api {post} /auth/signup/ Signup User
+/**
+ * @api {post} /api/user/logout Signup User
  * @apiName SignupUser
- * @apiGroup Auth
+ * @apiGroup Authentication
  *
- * @apiParam {String} username username
- * @apiParam {String} password password
  *
- * @apiSuccess {String} message
+ *
+ *
+ * @apiSuccess {String} message You arre logged out
  *
  * @apiSuccessExample Successful Reponse:
  * HTTP/1.1 201 OK
@@ -136,6 +154,7 @@ router.get('/bye', (req,res) => {
  *   "message": "success"
  * }
  */
+ 
 // Logout
 router.get('/logout', (req, res) => {
   req.logout();

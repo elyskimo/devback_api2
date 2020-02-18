@@ -48,9 +48,20 @@
 	<body>
 		<div>
 			<h1>Tableau des posts</h1>
-			<table method="POST" action="/api/posts">
+			<table method="POST" action="/api/posts" id="table">
 				<td></td>
 			</table>
 		</div>
 	</body>
+	<script>
+		console.log("{{ posts }}");
+		var node = document.createElement("TD");
+		var textnode = document.createTextNode("Water");
+		node.appendChild(textnode);
+		document.getElementById("table").appendChild(node);
+			// forEach(({{ posts }}, i) => {
+			//
+			// });
+
+	</script>
 </html>
