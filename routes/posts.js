@@ -3,6 +3,7 @@ const verify = require('./verifyToken');
 const User = require('../models/userModel');
 const Post = require('../models/postModel');
 
+
 /**
  * @api {get} /api/posts Get Posts
  * @apiName GetPosts
@@ -33,21 +34,21 @@ const Post = require('../models/postModel');
  * }
  */
 router.get('/', verify, async (req,res) => {
-  res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/posts.html');
-  // console.log(req.headers);
-  // res.send(req.user);
-  const user = await User.findOne({ _id: req.user }).catch((err) => {console.log(err);});
-  const posts = await Post.find().catch((err) => {console.log(err);});
-  console.log(posts);
-  res.render('api/posts', { posts: posts});
-  // res.send(posts);
-  // console.log(user);
-  // res.json({
-  //   posts: {
-  //     title: 'my first post',
-  //     description: 'you shouldnt see this description'
-  //   }
-  // });
+
+  // const user = await User.findOne({ _id: req.user }).catch((err) => {console.log(err);});
+  // const posts = await Post.find().catch((err) => {console.log(err);});
+  // res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/posts.html');
+
+  Post.find({}, function(err, posts) {
+    let postMap = {};
+
+    posts.forEach(function(post) {
+      postMap[post._id] = post;
+    });
+
+    res.send(postMap);
+  });
+
 });
 
 /**
@@ -82,10 +83,8 @@ router.get('/:id', verify, async (req,res,next) => {
     const post = await Post.find({_id: req.params.id}).catch(next);
     res.send(post);
 });
-router.get('/all', verify, async (req,res,next) => {
-    // const posts = await Post.find().catch(next);
-    res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/postsAll.html');
-});
+
+
 
 /**
  * @api {post} /api/posts/add Add Posts
@@ -156,8 +155,8 @@ router.post('/add', verify, async (req,res) => {
  */
 
 router.put('/edit/:id', verify, async (req,res,next) => {
-    Post.update(req.params.id, req.body).then(() => {
-      res.redirect('/');
+    Post.updateOne({_id: req.params.id}, {title: req.body.title, text: req.body.text }).then(() => {
+      res.redirect('/api/posts');
     }).catch(next);
 });
 
@@ -171,29 +170,27 @@ router.put('/edit/:id', verify, async (req,res,next) => {
  *
  * @apiParamExample Example Body:
  * {
- *   "titre1": "Freddie Mercury",
- *   "text1": "Je suis medecin"
+ *   "titre": "Freddie Mercury",
+ *   "text": "Je suis medecin"
  * }
  *
  *
- * @apiSuccess {Number} id Post id
  * @apiSuccess {String} title Post title
  * @apiSuccess {String} text Post text
  *
  *
  * @apiSuccessExample Success
  * {
- *   "id": 4,
- *   "title4": "Météo",
- *   "text4": "Il pleut",
+ *   "_id": "5e4aca4cf1040342ecadb141",
+ *   "title": "Météo",
+ *   "text": "Il pleut",
  * }
  */
- 
+
 router.delete('/delete/:id', verify, async (req,res) => {
    let id = req.params.id;
-    Post.findByIdAndRemove(id).then(() => {
-      res.send("Delete successful");
-      // res.redirect('/');
+    Post.findByIdAndDelete(id).then(() => {
+      res.redirect('/api/posts');
     }).catch(next);
 });
 module.exports = router;

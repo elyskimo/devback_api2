@@ -9,7 +9,6 @@ const router = require('express').Router(),
       urlencodedParser = bodyParser.urlencoded({extended: false});
       const sessionStorage = require('sessionstorage');
 
-
 /**
  * @api {post} /api/user/register Register User
  * @apiName RegisterUser
@@ -40,8 +39,9 @@ const router = require('express').Router(),
  */
 
  router.get('/register', (req,res) => {
-   res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/register.html');
- })
+   res.sendFile(process.cwd()+'/templates/register.html');
+ });
+
 router.post('/register', async (req,res) => {
   console.log("Register");
   const { name, email, password, password2 } = req.body;
@@ -56,8 +56,6 @@ router.post('/register', async (req,res) => {
   if(emailExist) return res.status(400).send('Email already exists');
 
   // Hasher le mot de passe
-  // const salt = await bcrypt.gentSaltSync(10);
-  // const hashedPassword = await bcrypt.hashSync(req.body.password, salt);
   bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(req.body.password, salt,async function(err, hash) {
         // Store hash in your password DB.
@@ -69,7 +67,6 @@ router.post('/register', async (req,res) => {
         });
         try{
           const savedUSer = await user.save();
-          // res.send(savedUSer);
           res.redirect('/api/user/login');
         }catch(err){
           res.status(400).send(err);
@@ -97,26 +94,21 @@ router.post('/register', async (req,res) => {
  */
 
 router.get('/login', (req,res,next) => {
-  res.sendFile('C:/Users/Eva/Desktop/My stuff/Ynov/Bachelor3/devback_api2/templates/login.html');
+  console.log(process.cwd());
+  res.sendFile(process.cwd()+'/templates/login.html');
+  // res.render('../templates/login.html');
 });
 
 router.post('/login', urlencodedParser, async (req,res,next) => {
 
-  // console.log(req.body.email);
-  // console.log(req.body.password);
   if(!req.body.email || !req.body.password){
     res.send("Please fill both inputs");
   } else {
-
     passport.authenticate('local', (err,user,info) => {
       if (err || !user) {
-              // return res.status(400).json({
-              //     message: 'Something is not right',
-              //     user   : user
-              // });
               return res.redirect('/');
       }
-      console.log(user)
+      // console.log(user)
       req.login(user, {session: false}, (err) => {
              if (err) {
                  res.send(err);
@@ -135,7 +127,7 @@ router.post('/login', urlencodedParser, async (req,res,next) => {
 
 router.get('/bye', (req,res) => {
   res.send("You are logged out");
-})
+});
 
 /**
 /**
@@ -154,11 +146,10 @@ router.get('/bye', (req,res) => {
  *   "message": "success"
  * }
  */
- 
+
 // Logout
 router.get('/logout', (req, res) => {
   req.logout();
-  // req.flash('success_msg', 'You are logged out');
   res.redirect('/api/user/bye');
 });
 
