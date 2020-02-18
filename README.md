@@ -3,30 +3,30 @@
 
 # [TP DevBack API](https://github.com/elyskimo/devback_api2)
 
-## Technologies utilisées 
+## Technologies utilisées
 
- - Pour l'api : 
-	 - Node.js 
-	 - Express 
-	 - Mongoose 
-	 - Passport Jwt 
- - Pour la documentation : 
+ - Pour l'api :
+	 - Node.js
+	 - Express
+	 - Mongoose
+	 - Passport Jwt
+ - Pour la documentation :
 	 - ApiDoc
- - Pour le partage de l'api: 
-	 - NGROK 
+ - Pour le partage de l'api:
+	 - NGROK
 
-### Consigne du tp Devback 
+### Consigne du tp Devback
 
-L'objectif était de construire une api, en utilisant les technologies de notre choix. 
+L'objectif était de construire une api, en utilisant les technologies de notre choix.
 
 ### Usage
 
-npm start
+`npm start`
 Pour accéder à la documention de l'api, il y a une route qui a été crée "/docs"
 **Tips**  
 
-Installation des modules suivants: 
- - Mongoose : `npm  i mongoose --save` 
+Installation des modules suivants:
+ - Mongoose : `npm  i mongoose --save`
  - Express : `npm  i express --save`
  - Passport Jwt : `npm  i passport-jwt --save`
  - Passport local : `npm  i passport-local --save`
