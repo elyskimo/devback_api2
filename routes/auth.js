@@ -115,7 +115,7 @@ router.post('/login', urlencodedParser, async (req,res,next) => {
                  res.redirect('/');
              }
              // generate a signed son web token with the contents of user object and return it in the response
-             const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+             const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '60m' });
              sessionStorage.setItem('jwt', token);
              res.redirect('/api/posts');
           });

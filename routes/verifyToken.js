@@ -4,7 +4,7 @@ const sessionStorage = require('sessionstorage');
 module.exports = function (req,res,next) {
 
   const token = sessionStorage.getItem('jwt');
-  if(!token) return res.status(401).send("Access Denied");
+  if(!token) return res.status(401).send("Access Denied, please log in");
 
   try{
     const verified = jwt.verify(token, process.env.TOKEN_SECRET);

@@ -114,14 +114,14 @@ router.get('/:id', verify, async (req,res,next) => {
  * }
  */
 
-router.post('/add', verify, async (req,res) => {
+router.post('/add', verify, async (req,res,next) => {
     if( !req.body.title || req.body.title === '' ||
         !req.body.text || req.body.text === '')
       {
         let err = new Error('Please fill all the inputs');
         return next(err);
       }
-    Post.collection.insert(req.body).then(() => {
+    Post.collection.insertOne(req.body).then(() => {
       res.redirect('/api/posts');
     }).catch(next);
 });
